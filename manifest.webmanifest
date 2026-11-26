@@ -1,0 +1,13 @@
+{
+  "name": "S-A-J-W-A-L Uploader+",
+  "short_name": "S-A-J-W-A-L",
+  "description": "Mobile MP4 compatibility and container patching web app.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#08050b",
+  "theme_color": "#08050b",
+  "orientation": "portrait",
+  "icons": [
+    {"src": "icon128.png", "sizes": "128x128", "type": "image/png", "purpose": "any maskable"}
+  ]
+}

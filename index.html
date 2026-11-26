@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#08050b">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>S-A-J-W-A-L Uploader+</title>
+<style>
+:root{--bg:#08050b;--card:rgba(255,235,241,.08);--border:rgba(255,143,174,.32);--text:#fff4f7;--muted:#c8aeb8;--accent:#ff3e6b;--accent2:#8f376f;--ok:#34c759;--danger:#ff6b6b;--r:24px}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,sans-serif}body{overflow-x:hidden}
+.bg{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;opacity:.28;z-index:-3}.veil{position:fixed;inset:0;background:linear-gradient(180deg,rgba(8,5,11,.38),rgba(8,5,11,.86));z-index:-2}
+.wrap{width:min(760px,100%);margin:0 auto;padding:18px 14px 40px}.glass{background:var(--card);border:1px solid var(--border);border-radius:var(--r);backdrop-filter:blur(18px) saturate(145%);-webkit-backdrop-filter:blur(18px);box-shadow:0 18px 60px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.08)}
+header{padding:16px;display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:15px;overflow:hidden;flex:none}.logo img{width:100%;height:100%;object-fit:cover}.brand{min-width:0}.brand h1{margin:0;font-size:18px;letter-spacing:-.03em}.brand p{margin:4px 0 0;color:var(--muted);font-size:11px}.badge{margin-left:auto;border:1px solid rgba(255,143,174,.35);background:rgba(255,62,107,.1);border-radius:999px;padding:7px 10px;font-size:10px;color:#ffdce6;white-space:nowrap}
+main{display:grid;gap:14px;margin-top:14px}.hero{padding:20px}.hero h2{margin:0 0 8px;font-size:25px}.hero p{margin:0;color:var(--muted);line-height:1.55;font-size:13px}.drop{margin-top:18px;border:1.5px dashed rgba(255,143,174,.55);border-radius:20px;padding:24px 16px;text-align:center;background:rgba(255,255,255,.035);transition:.18s}.drop.drag{border-color:var(--accent);background:rgba(255,62,107,.08)}.drop strong{display:block;font-size:14px}.drop span{display:block;color:var(--muted);font-size:11px;margin:7px 0 14px}.btn{appearance:none;border:0;border-radius:15px;padding:13px 16px;font:inherit;font-size:12px;font-weight:700;color:white;background:linear-gradient(165deg,#ff5a7f,#ef315f 55%,#8f376f);box-shadow:0 10px 25px rgba(239,49,95,.25);cursor:pointer}.btn.secondary{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.13);box-shadow:none}.btn:disabled{opacity:.45;cursor:not-allowed}.file{margin-top:14px;display:none}.file.show{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}.file-name{font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.file-meta{color:var(--muted);font-size:10px;margin-top:4px}
+.controls{padding:16px;display:grid;gap:12px}.row{display:flex;gap:10px;flex-wrap:wrap}.status{padding:14px;border-radius:16px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);font-size:11px;color:var(--muted);line-height:1.5}.status.ok{color:#caffd5;border-color:rgba(52,199,89,.3)}.status.err{color:#ffd0d0;border-color:rgba(255,107,107,.35)}.progress{height:8px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;display:none}.progress.show{display:block}.bar{height:100%;width:0;background:linear-gradient(90deg,#ff5a7f,#8f376f);transition:width .2s}
+.info{padding:16px}.info h3{margin:0 0 10px;font-size:13px}.info ul{margin:0;padding-left:18px;color:var(--muted);font-size:11px;line-height:1.7}.footer{text-align:center;color:#8f7d85;font-size:10px;margin-top:18px}.link{color:#ffd3df;text-decoration:none}.hidden{display:none!important}
+@media(min-width:640px){.wrap{padding-top:28px}.hero{padding:28px}.controls,.info{padding:20px}}
+</style>
+</head>
+<body>
+<video class="bg" autoplay muted loop playsinline preload="metadata"><source src="assets/anime-ui-bg.mp4" type="video/mp4"></video><div class="veil"></div>
+<div class="wrap">
+<header class="glass"><div class="logo"><img src="icon128.png" alt="S-A-J-W-A-L"></div><div class="brand"><h1>S-A-J-W-A-L Uploader+</h1><p>Local MP4 compatibility & container patching</p></div><div class="badge">WEB APP</div></header>
+<main>
+<section class="glass hero"><h2>Process your video</h2><p>Select an MP4 file. Processing happens locally in your browser; the original video is not uploaded to a server by this page.</p>
+<div id="drop" class="drop"><strong>Choose an MP4 video</strong><span>Android-friendly • H.264/AVC & H.265/HEVC supported by the patcher</span><button id="choose" class="btn">Choose Video</button><input id="file" class="hidden" type="file" accept="video/mp4,.mp4,video/*"></div>
+<div id="fileBox" class="file"><div><div id="fileName" class="file-name"></div><div id="fileMeta" class="file-meta"></div></div><button id="clear" class="btn secondary">Remove</button></div>
+</section>
+<section class="glass controls"><div class="row"><button id="inspect" class="btn secondary" disabled>Check Compatibility</button><button id="patch" class="btn" disabled>Patch & Download</button><button id="install" class="btn secondary hidden">Install App</button></div><div id="progress" class="progress"><div id="bar" class="bar"></div></div><div id="status" class="status">Ready. Select a video to begin.</div></section>
+<section class="glass info"><h3>What this web version does</h3><ul><li>Runs the existing MP4 container patcher directly in the browser.</li><li>Preserves the original H.264/AVC and H.265/HEVC patching approach.</li><li>Creates a processed file with the <b>_rein.mp4</b> suffix.</li><li>Works as a normal website on Android; no Chrome extension installation is required.</li></ul><div class="row" style="margin-top:14px"><button id="tiktok" class="btn secondary">Open TikTok Studio</button></div></section>
+</main><div class="footer">S-A-J-W-A-L Uploader+ • Web Edition • Local processing<br><span style="display:inline-block;margin-top:6px">For Android: use Chrome → ⋮ → Add to Home screen.</span></div>
+</div>
+<script src="mp4-container-patcher.js"></script>
+<script>
+(()=>{
+ const $=s=>document.querySelector(s); const fileInput=$('#file'); const drop=$('#drop'); const choose=$('#choose'); const fileBox=$('#fileBox'); const nameEl=$('#fileName'); const metaEl=$('#fileMeta'); const inspectBtn=$('#inspect'); const patchBtn=$('#patch'); const status=$('#status'); const progress=$('#progress'); const bar=$('#bar'); let file=null;
+ function fmt(n){if(n<1024)return n+' B';if(n<1048576)return (n/1024).toFixed(1)+' KB';return (n/1048576).toFixed(1)+' MB'}
+ function setStatus(t,type=''){status.textContent=t;status.className='status '+type}
+ function setFile(f){if(!f)return;if(!/\.mp4$/i.test(f.name)&&f.type!=='video/mp4'){setStatus('Please select an MP4 video.','err');return}file=f;nameEl.textContent=f.name;metaEl.textContent=fmt(f.size);fileBox.classList.add('show');inspectBtn.disabled=false;patchBtn.disabled=false;setStatus('Video selected. You can check compatibility or patch it.','ok')}
+ choose.onclick=()=>fileInput.click(); fileInput.onchange=e=>setFile(e.target.files[0]); $('#clear').onclick=()=>{file=null;fileInput.value='';fileBox.classList.remove('show');inspectBtn.disabled=true;patchBtn.disabled=true;setStatus('Ready. Select a video to begin.');}
+ ;['dragenter','dragover'].forEach(x=>drop.addEventListener(x,e=>{e.preventDefault();drop.classList.add('drag')}));['dragleave','drop'].forEach(x=>drop.addEventListener(x,e=>{e.preventDefault();drop.classList.remove('drag')}));drop.addEventListener('drop',e=>setFile(e.dataTransfer.files[0]));
+ function getPatcher(){return window.ReinMp4Patcher||window.ReinMp4Patch||window.ReinVideoPatcher||null}
+ async function inspect(){if(!file)return;const p=getPatcher();if(!p){setStatus('The MP4 patcher could not be loaded.','err');return}setStatus('Reading video structure…');try{const buf=await file.arrayBuffer();const fn=p.inspectCompatibility||p.inspectMediaInfo||p.validateResult;if(typeof fn==='function'){const r=fn(buf);setStatus(typeof r==='string'?r:JSON.stringify(r,null,2),'ok')}else{setStatus('Patcher loaded. The file is ready for processing.','ok')}}catch(e){setStatus('Compatibility check failed: '+(e?.message||e),'err')}}
+ async function patch(){if(!file)return;const p=getPatcher();if(!p){setStatus('The MP4 patcher could not be loaded.','err');return}patchBtn.disabled=true;inspectBtn.disabled=true;progress.classList.add('show');bar.style.width='15%';setStatus('Reading video…');try{const buf=await file.arrayBuffer();bar.style.width='35%';setStatus('Applying local MP4 container patch…');const fn=p.patchWithReport||p.processAndReport||p.patchContainer;if(typeof fn!=='function')throw new Error('Compatible patch function not found.');const result=await fn(buf);bar.style.width='85%';let out=result?.buffer||result?.data||result?.output||result; if(out?.buffer instanceof ArrayBuffer && !(out instanceof ArrayBuffer))out=out.buffer;if(!(out instanceof ArrayBuffer)&&!(out instanceof Uint8Array))throw new Error('Patcher returned an unsupported result.');const bytes=out instanceof Uint8Array?out:new Uint8Array(out);const blob=new Blob([bytes],{type:'video/mp4'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=file.name.replace(/\.mp4$/i,'')+'_rein.mp4';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),3000);bar.style.width='100%';setStatus('Done. Your processed video was downloaded as '+a.download+'.','ok')}catch(e){console.error(e);setStatus('Processing failed: '+(e?.message||e),'err')}finally{patchBtn.disabled=false;inspectBtn.disabled=false;setTimeout(()=>progress.classList.remove('show'),700)}}
+ inspectBtn.onclick=inspect;patchBtn.onclick=patch;$('#tiktok').onclick=()=>window.open('https://www.tiktok.com/tiktokstudio/upload','_blank','noopener');
+ let deferredInstall=null; const installBtn=$('#install'); window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;installBtn.classList.remove('hidden');}); installBtn.onclick=async()=>{if(!deferredInstall)return;deferredInstall.prompt();await deferredInstall.userChoice;deferredInstall=null;installBtn.classList.add('hidden');}; window.addEventListener('appinstalled',()=>installBtn.classList.add('hidden'));
+ if('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+})();
+</script>
+</body></html>
